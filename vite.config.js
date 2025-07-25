@@ -59,7 +59,7 @@ const viteConfig = defineConfig((mode) => {
       },
     },
     server: {
-      port: import.meta.env.VITE_PORT,
+      port: 8082,
       proxy: {
         '/api': {
           changeOrigin: true,

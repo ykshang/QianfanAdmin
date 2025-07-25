@@ -4,12 +4,11 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import * as ElementPlusIcons from '@element-plus/icons-vue'
 import pinia from '@/Stores/index'
-import App from './App.vue'
-import router from './Router'
+import App from '@/App.vue'
+import router from '@/Router'
 import '@/Styles/app.scss';
-import '@/Styles/index.scss';
-import '@/Styles/elementUI.scss';
-import '@/Styles/special.scss';
+import '@/Styles/mixin.scss';
+import '@/style.css';
 import globalComponent from '@/Components/index.js'
 import '@/Styles/iconfont/iconfont.css'
 

@@ -1,0 +1,46 @@
+/* 字体大小全局样式
+------------------------------- */
+@for $i from 1 through 100 {
+  .font-#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+/* 左外边距
+------------------------------- */
+@for $i from 1 through 1000 {
+  .ml-#{$i} {
+    margin-left: #{$i}px !important;
+  }
+}
+
+/* 左右内边距
+------------------------------- */
+@for $i from 1 through 100 {
+  .p-lr-#{$i} {
+    padding-left: #{$i}px !important;
+    padding-right: #{$i}px !important;
+  }
+}
+
+/* 多行显示，溢出显示省略号
+------------------------------- */
+@for $i from 1 through 100 {
+  .el-#{$i} {
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: #{$i};
+    /* 这里是超出几行省略 */
+    overflow: hidden;
+  }
+}
+
+/* 单行显示，溢出显示省略号
+------------------------------- */
+.ellipsis-one {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

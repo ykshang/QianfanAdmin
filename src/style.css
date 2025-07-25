@@ -1,16 +1,43 @@
 :root {
+  height: 100%;
+  color: var(--qf-font-color-light);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  /* 样式全局变量 Start */
+  --qf-bg-special-color: #364f6b;
+  --qf-bg-brand-color: #232931;
+  --qf-bg-match-color: #393e46;
+  --qf-bg-target-color: #4ecca3;
+  --qf-bg-bright-color: #9ec9bb;
+  --qf-font-color-light: #303133;
+  --qf-font-color-dark: #eeeeee;
+  --qf-font-color-target: #4ecca3;
+  --qf-header-height: 60px;
+  --qf-aside-left-width: 200px;
+  /* 样式全局变量 End*/
+
+  /* ElementPlus 样式全局变量 Start */
+  --el-text-color-primary: var(--qf-font-color-dark) !important;
+  --el-color-primary: var(--qf-font-color-target) !important;
+  /* ElementPlus 样式全局变量 End */
+}
+
+.el-menu {
+  border-right: none !important;
+  border-bottom: none !important;
 }
 
 body {
-  margin: 0;
+  margin: 0px;
   padding: 0;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height: 100vh;
-  width: 100vw;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
 }
