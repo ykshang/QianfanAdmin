@@ -1,5 +1,11 @@
 <template>
-	<component :is="layouts[isLayout]" />
+	<component :is="layouts[isLayout]">
+		<template #MainView>
+			<el-main>
+				<router-view />
+			</el-main>
+		</template>
+	</component>
 </template>
 <script setup name="BackendLayout">
 import { defineAsyncComponent, computed } from 'vue';
@@ -15,8 +21,8 @@ const layouts = {
 // 定义变量内容
 const isLayout = computed(() => {
 	const stores = useAppSettings();
-	const { appSettings } = storeToRefs(stores);
-	return appSettings.value.layout;
+	const { systemTheme } = storeToRefs(stores);
+	return systemTheme.value.layout;
 });
 </script>
 <style lang="scss" scoped>

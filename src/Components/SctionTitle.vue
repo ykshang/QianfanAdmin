@@ -37,7 +37,7 @@ const props = defineProps({
 	font-size: 1.2rem;
 	letter-spacing: 0.06em;
 	font-weight: 600;
-	color: var(--qf-font-color-light);
+	color: var(--el-text-color-regular);
 }
 .section-title > i {
 	margin-right: 0.5rem;

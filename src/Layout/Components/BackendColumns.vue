@@ -13,46 +13,24 @@
 				</div>
 			</el-scrollbar>
 		</el-aside>
-		<el-aside class="aside"
-							:width="appSettings.menuIsExpand ? 'var(--qf-aside-left-width)':'0px'">
-			<SystemTitle />
-			<div style="height: calc(100% - var(--qf-header-height));">
-				<el-scrollbar>
-					<el-menu :default-active="route.path"
-									 background-color="var(--qf-bg-brand-color)"
-									 text-color="var(--qf-font-color-dark)"
-									 active-text-color="var(--qf-font-color-target)"
-									 :collapse="false"
-									 router>
-						<SubMenu :systemMenus="systemMenus" />
-					</el-menu>
-				</el-scrollbar>
-			</div>
-		</el-aside>
-		<el-container>
-			<el-header class="header"
-								 height="var(--qf-header-height)">
-				<i class="expand-collapse-btn iconfont icon-daohangzhankai"
-					 :class="{'collapse-btn':appSettings.menuIsExpand}"
-					 @click="OnChangeMenuIsExpand" />
-				<Breadcrumb />
-				<div style="flex-grow:1;"></div>
-				<el-menu :default-active="currentSubSystem"
-								 background-color="var(--qf-bg-match-color)"
-								 text-color="var(--qf-font-color-dark)"
-								 active-text-color="var(--qf-font-color-target)"
-								 mode="horizontal"
-								 @select="OnHorMenuSelect">
-					<SubMenu :systemMenus="systemMenusHor"
-									 :showChildren="false" />
-				</el-menu>
-				<Navbars />
-			</el-header>
-			<el-main>
-				<router-view />
-			</el-main>
-			<el-footer v-if="appSettings.showFooter"
-								 style="background-color: var(--qf-bg-bright-color);color:var(--qf-font-color-dark);">这里是页脚部分</el-footer>
+		<LayoutAside :systemMenus="systemMenus"
+								 :asideWidth="appSettings.menuIsExpand ? `${systemTheme.menuWidth}px`:'0px'" />
+		<el-container style="flex-direction: column;">
+			<QFScrollbar :isScrollbar="!systemTheme.affixHeader">
+				<LayoutHeader :isShowSystemTitle="false"
+											:systemMenus="systemMenusHor"
+											:currentSubSystem="currentSubSystem"
+											:showChildren="false"
+											:menuIsRouter="false"
+											:menuIsExpand="appSettings.menuIsExpand"
+											@OnChangeMenuIsExpand="OnChangeMenuIsExpand"
+											@OnHorMenuSelect="OnHorMenuSelect" />
+				<PageTabs v-if="systemTheme.showPageTabs" />
+				<QFScrollbar :isScrollbar="systemTheme.affixHeader">
+					<slot name="MainView" />
+				</QFScrollbar>
+				<LayoutFooter />
+			</QFScrollbar>
 		</el-container>
 	</el-container>
 </template>
@@ -65,7 +43,7 @@ import { useAppSettings } from '@/Stores/appSettings';
 const route = useRoute();
 const router = useRouter();
 const storesUseAppSettings = useAppSettings(pinia);
-const { appSettings } = storeToRefs(useAppSettings());
+const { appSettings, systemTheme } = storeToRefs(useAppSettings());
 const systemMenus = ref([]);
 const systemMenusColumns = ref([]);
 const currentMenusColumns = ref(route.matched[0].children[0]);
@@ -79,12 +57,10 @@ const OnChangeMenuIsExpand = () => {
 const OnMenuExpand = () => {
 	appSettings.value.menuIsExpand = true;
 	storesUseAppSettings.setAppSettings(appSettings.value);
-	document.documentElement.style.setProperty('--qf-aside-left-width', '200px');
 }
 const OnMenuCollapse = () => {
 	appSettings.value.menuIsExpand = false;
 	storesUseAppSettings.setAppSettings(appSettings.value);
-	document.documentElement.style.setProperty('--qf-aside-left-width', '65px');
 }
 const systemMenusHor = ref([]);
 const currentSubSystem = ref(appSettings.value.currentSubSystem);
@@ -125,9 +101,9 @@ const CheckMenuData = () => {
 	}
 }
 watch(
-	() => appSettings.value.subSystem,
+	() => systemTheme.value.subSystem,
 	() => {
-		if (appSettings.value.subSystem) {
+		if (systemTheme.value.subSystem) {
 			systemMenusHor.value = route.matched[0].children;
 			OnHorMenuSelect(route.matched[1].path, true);
 		} else {
@@ -140,7 +116,7 @@ watch(
 	}
 );
 onMounted(() => {
-	if (appSettings.value.subSystem) {
+	if (systemTheme.value.subSystem) {
 		systemMenusHor.value = route.matched[0].children;
 		OnHorMenuSelect(appSettings.value.currentSubSystem, true);
 	} else {
@@ -154,39 +130,16 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .columns {
-	background-color: var(--qf-bg-special-color);
+	background-color: var(--qf-sidebar-bg-color);
 	width: 64px;
 	transition: 0.5s;
-}
-.aside {
-	background-color: var(--qf-bg-brand-color);
-	transition: 0.5s;
-}
-.header {
-	background-color: var(--qf-bg-match-color);
-	color: var(--qf-font-color-dark);
-	display: flex;
-	align-items: center;
-}
-.expand-collapse-btn {
-	cursor: pointer;
-	font-weight: 600;
-	transition: 0.5s;
-	user-select: none;
-	margin-right: 12px;
-}
-.expand-collapse-btn:hover {
-	color: var(--qf-bg-target-color);
-}
-.collapse-btn {
-	transform: rotateY(180deg);
 }
 .columns-menu {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: var(--qf-bg-special-color);
-	color: var(--qf-font-color-dark);
+	background-color: var(--qf-sidebar-bg-color);
+	color: var(--qf-sidebar-font-color);
 	border-radius: 5px;
 	height: 58px;
 	justify-content: center;
@@ -202,12 +155,14 @@ onMounted(() => {
 		font-size: 12px;
 	}
 }
-.columns-menu:hover {
-	background-color: var(--qf-bg-bright-color);
+.columns-menu:hover:not(.columns-menu-active) {
+	background-color: var(--el-color-primary-light-5);
+	color: #ffffff;
 }
 .columns-menu-active {
-	background-color: var(--qf-font-color-target);
+	background-color: var(--el-color-primary);
 	font-weight: bold;
+	color: #ffffff;
 }
 </style>
 

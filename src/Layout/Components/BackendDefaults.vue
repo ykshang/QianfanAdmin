@@ -1,49 +1,23 @@
 <template>
 	<el-container class="h-100">
-		<el-aside class="aside"
-							width="var(--qf-aside-left-width)">
-			<SystemTitle />
-			<div style="height: calc(100% - var(--qf-header-height));">
-				<el-scrollbar>
-					<el-menu :default-active="route.path"
-									 background-color="var(--qf-bg-brand-color)"
-									 text-color="var(--qf-font-color-dark)"
-									 active-text-color="var(--qf-font-color-target)"
-									 :collapse="!appSettings.menuIsExpand"
-									 router>
-						<SubMenu :systemMenus="systemMenus" />
-					</el-menu>
-				</el-scrollbar>
-			</div>
-		</el-aside>
-		<el-container>
-			<el-scrollbar style="width:100%">
-				<!-- <el-affix> -->
-					<el-header class="header"
-										 height="var(--qf-header-height)">
-						<i class="expand-collapse-btn iconfont icon-daohangzhankai"
-							 :class="{'collapse-btn':appSettings.menuIsExpand}"
-							 @click="OnChangeMenuIsExpand" />
-						<Breadcrumb />
-						<div style="flex-grow:1;"></div>
-						<el-menu :default-active="currentSubSystem"
-										 background-color="var(--qf-bg-match-color)"
-										 text-color="var(--qf-font-color-dark)"
-										 active-text-color="var(--qf-font-color-target)"
-										 mode="horizontal"
-										 @select="OnHorMenuSelect">
-							<SubMenu :systemMenus="systemMenusHor"
-											 :showChildren="false" />
-						</el-menu>
-						<Navbars />
-					</el-header>
-				<!-- </el-affix> -->
-				<el-main>
-					<router-view />
-				</el-main>
-				<el-footer v-if="appSettings.showFooter"
-									 style="background-color: var(--qf-bg-bright-color);color:var(--qf-font-color-dark);">这里是页脚部分</el-footer>
-			</el-scrollbar>
+		<LayoutAside :systemMenus="systemMenus"
+								 :asideWidth="`${menuWidth}px`" />
+		<el-container style="flex-direction: column;">
+			<QFScrollbar :isScrollbar="!systemTheme.affixHeader">
+				<LayoutHeader :isShowSystemTitle="false"
+											:systemMenus="systemMenusHor"
+											:currentSubSystem="currentSubSystem"
+											:showChildren="false"
+											:menuIsRouter="false"
+											:menuIsExpand="appSettings.menuIsExpand"
+											@OnChangeMenuIsExpand="OnChangeMenuIsExpand"
+											@OnHorMenuSelect="OnHorMenuSelect" />
+				<PageTabs v-if="systemTheme.showPageTabs" />
+				<QFScrollbar :isScrollbar="systemTheme.affixHeader">
+					<slot name="MainView" />
+				</QFScrollbar>
+				<LayoutFooter />
+			</QFScrollbar>
 		</el-container>
 	</el-container>
 </template>
@@ -56,30 +30,30 @@ import { useAppSettings } from '@/Stores/appSettings';
 const route = useRoute();
 const router = useRouter();
 const storesUseAppSettings = useAppSettings(pinia);
-const { appSettings } = storeToRefs(useAppSettings());
+const { appSettings, systemTheme } = storeToRefs(useAppSettings());
 const systemMenus = ref([]);
+const menuWidth = ref(appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65);
 const OnChangeMenuIsExpand = () => {
 	appSettings.value.menuIsExpand = !appSettings.value.menuIsExpand;
 	storesUseAppSettings.setAppSettings(appSettings.value);
-	document.documentElement.style.setProperty('--qf-aside-left-width', appSettings.value.menuIsExpand ? '200px' : '65px');
+	menuWidth.value = appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65;
 }
 const systemMenusHor = ref([]);
-const currentSubSystem = ref(appSettings.value.currentSubSystem);
-const OnHorMenuSelect = (key) => {
-	currentSubSystem.value = key === null || key === undefined || key === '' ? route.matched[0].children[0].path : key;
-	const _menus = route.matched[0].children.find(item => item.path === currentSubSystem.value)
+const currentSubSystem = ref(systemTheme.value.currentSubSystem);
+const OnHorMenuSelect = (key, keyPath) => {
+	currentSubSystem.value = key === null || key === undefined || key === '' ? route.matched[1].path : key;
+	const _menus = route.matched[0].children.find(item => item.path === currentSubSystem.value);
 	systemMenus.value = _menus.children ?? [];
-	appSettings.value.currentSubSystem = currentSubSystem.value;
-	storesUseAppSettings.setAppSettings(appSettings.value);
-	/** 路由跳转到 _menus.path */
+	systemTheme.value.currentSubSystem = currentSubSystem.value;
+	storesUseAppSettings.setSystemTheme(systemTheme.value);
 	if (_menus.path !== route.path) {
 		router.push(_menus.path);
 	}
 }
 watch(
-	() => appSettings.value.subSystem,
+	() => systemTheme.value.subSystem,
 	() => {
-		if (appSettings.value.subSystem) {
+		if (systemTheme.value.subSystem) {
 			systemMenusHor.value = route.matched[0].children;
 			OnHorMenuSelect(route.matched[1].path);
 		} else {
@@ -88,8 +62,14 @@ watch(
 		}
 	}
 );
+watch(
+	() => systemTheme.value.menuWidth,
+	() => {
+		menuWidth.value = appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65;
+	}
+);
 onMounted(() => {
-	if (appSettings.value.subSystem) {
+	if (systemTheme.value.subSystem) {
 		systemMenusHor.value = route.matched[0].children;
 		OnHorMenuSelect(appSettings.value.currentSubSystem);
 	} else {
@@ -98,28 +78,5 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.aside {
-	background-color: var(--qf-bg-brand-color);
-	transition: 0.5s;
-}
-.header {
-	background-color: var(--qf-bg-match-color);
-	color: var(--qf-font-color-dark);
-	display: flex;
-	align-items: center;
-}
-.expand-collapse-btn {
-	cursor: pointer;
-	font-weight: 600;
-	transition: 0.5s;
-	user-select: none;
-	margin-right: 12px;
-}
-.expand-collapse-btn:hover {
-	color: var(--qf-bg-target-color);
-}
-.collapse-btn {
-	transform: rotateY(180deg);
-}
 </style>
 

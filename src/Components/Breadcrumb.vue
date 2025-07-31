@@ -20,14 +20,14 @@ import { storeToRefs } from 'pinia';
 import { useAppSettings } from '@/Stores/appSettings';
 
 const route = useRoute();
-const { appSettings } = storeToRefs(useAppSettings());
+const { appSettings, systemTheme } = storeToRefs(useAppSettings());
 const breadcrumbs = ref([]);
 const getBreadcrumbs = (matched) => {
 	let _breadcrumbs = matched.filter(item => item.meta.title !== null && item.meta.title !== undefined)
 		.map((item) => {
 			return { path: item.path, title: item.meta.title };
 		});
-	if (appSettings.value.subSystem) {
+	if (systemTheme.value.subSystem && systemTheme.value.layout !== 'horizontal' && systemTheme.value.layout !== 'chapter') {
 		_breadcrumbs.shift();
 	}
 	breadcrumbs.value = _breadcrumbs;
@@ -36,7 +36,7 @@ onBeforeRouteUpdate((to) => {
 	getBreadcrumbs(to.matched);
 })
 watch(
-	() => appSettings.value.subSystem,
+	() => systemTheme.value.subSystem,
 	() => {
 		getBreadcrumbs(route.matched);
 	}
@@ -46,7 +46,12 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+.breadcrumb-to,
 .breadcrumb-item {
-	color: var(--qf-font-color-dark);
+	color: var(--qf-topnav-font-color);
+  transition: 0.5s;
+}
+.breadcrumb-to:hover{
+  color: var(--el-color-primary);
 }
 </style>

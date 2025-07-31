@@ -9,12 +9,18 @@
 /* 左外边距
 ------------------------------- */
 @for $i from 1 through 1000 {
-  .ml-#{$i} {
+  .m-l-#{$i} {
     margin-left: #{$i}px !important;
   }
 }
 
 /* 左右内边距
+------------------------------- */
+@for $i from 1 through 100 {
+  .p-#{$i} {
+    padding: #{$i}px !important;
+  }
+}/* 左右内边距
 ------------------------------- */
 @for $i from 1 through 100 {
   .p-lr-#{$i} {
@@ -27,12 +33,12 @@
 ------------------------------- */
 @for $i from 1 through 100 {
   .el-#{$i} {
-    word-break: break-all;
-    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: #{$i};
     line-clamp: #{$i};
-    /* 这里是超出几行省略 */
+    word-break: break-all;
+    text-overflow: ellipsis;
     overflow: hidden;
   }
 }

@@ -54,7 +54,7 @@ const viteConfig = defineConfig((mode) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/Styles/elementUI.scss" as *;`,
+          // additionalData: `@use "@/Styles/elementUI.scss" as *;`,
         },
       },
     },

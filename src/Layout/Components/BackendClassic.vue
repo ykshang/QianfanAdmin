@@ -1,48 +1,24 @@
 <template>
-	<el-container class="h-100">
-		<el-header class="header"
-							 height="var(--qf-header-height)">
-			<div style="width: fit-content;">
-				<SystemTitle />
-			</div>
-			<div style="width: fit-content;display:flex;align-items:center;">
-				<i class="expand-collapse-btn iconfont icon-daohangzhankai"
-					 :class="{'collapse-btn':appSettings.menuIsExpand}"
-					 @click="OnChangeMenuIsExpand" />
-				<Breadcrumb />
-			</div>
-			<div style="flex-grow:1;"></div>
-			<el-menu :default-active="currentSubSystem"
-							 background-color="var(--qf-bg-match-color)"
-							 text-color="var(--qf-font-color-dark)"
-							 active-text-color="var(--qf-font-color-target)"
-							 mode="horizontal"
-							 @select="OnHorMenuSelect">
-				<SubMenu :systemMenus="systemMenusHor"
-								 :showChildren="false" />
-			</el-menu>
-			<Navbars />
-		</el-header>
-		<el-container style="height: calc(100% - var(--qf-header-height));">
-			<el-aside class="aside"
-								width="var(--qf-aside-left-width)">
-				<el-scrollbar>
-					<el-menu :default-active="route.path"
-									 background-color="var(--qf-bg-brand-color)"
-									 text-color="var(--qf-font-color-dark)"
-									 active-text-color="var(--qf-font-color-target)"
-									 :collapse="!appSettings.menuIsExpand"
-									 router>
-						<SubMenu :systemMenus="systemMenus" />
-					</el-menu>
-				</el-scrollbar>
-			</el-aside>
-			<el-container>
-				<el-main>
-					<router-view />
-				</el-main>
-				<el-footer v-if="appSettings.showFooter"
-									 style="background-color: var(--qf-bg-bright-color);color:var(--qf-font-color-dark);">这里是页脚部分</el-footer>
+	<el-container class="h-100"
+								style="flex-direction: column;">
+		<LayoutHeader :isShowSystemTitle="true"
+									:systemMenus="systemMenusHor"
+									:currentSubSystem="currentSubSystem"
+									:showChildren="false"
+									:menuIsRouter="false"
+									:menuIsExpand="appSettings.menuIsExpand"
+									@OnChangeMenuIsExpand="OnChangeMenuIsExpand"
+									@OnHorMenuSelect="OnHorMenuSelect" />
+		<el-container :style="{'height': `calc(100% - ${systemTheme.headerHeight}px)`}">
+			<LayoutAside :systemMenus="systemMenus"
+									 :isShowSystemTitle="false"
+									 :asideWidth="`${menuWidth}px`" />
+			<el-container style="flex-direction: column;">
+				<PageTabs v-if="systemTheme.showPageTabs" />
+				<QFScrollbar :isScrollbar="true">
+					<slot name="MainView" />
+				</QFScrollbar>
+				<LayoutFooter />
 			</el-container>
 		</el-container>
 	</el-container>
@@ -56,12 +32,13 @@ import { useAppSettings } from '@/Stores/appSettings';
 const route = useRoute();
 const router = useRouter();
 const storesUseAppSettings = useAppSettings(pinia);
-const { appSettings } = storeToRefs(useAppSettings());
+const { appSettings, systemTheme } = storeToRefs(useAppSettings());
 const systemMenus = ref([]);
+const menuWidth = ref(appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65);
 const OnChangeMenuIsExpand = () => {
 	appSettings.value.menuIsExpand = !appSettings.value.menuIsExpand;
 	storesUseAppSettings.setAppSettings(appSettings.value);
-	document.documentElement.style.setProperty('--qf-aside-left-width', appSettings.value.menuIsExpand ? '200px' : '65px');
+	menuWidth.value = appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65;
 }
 const systemMenusHor = ref([]);
 const currentSubSystem = ref(appSettings.value.currentSubSystem);
@@ -77,9 +54,9 @@ const OnHorMenuSelect = (key) => {
 	}
 }
 watch(
-	() => appSettings.value.subSystem,
+	() => systemTheme.value.subSystem,
 	() => {
-		if (appSettings.value.subSystem) {
+		if (systemTheme.value.subSystem) {
 			systemMenusHor.value = route.matched[0].children;
 			OnHorMenuSelect(route.matched[1].path);
 		} else {
@@ -88,8 +65,14 @@ watch(
 		}
 	}
 );
+watch(
+	() => systemTheme.value.menuWidth,
+	() => {
+		menuWidth.value = appSettings.value.menuIsExpand ? systemTheme.value.menuWidth : 65;
+	}
+);
 onMounted(() => {
-	if (appSettings.value.subSystem) {
+	if (systemTheme.value.subSystem) {
 		systemMenusHor.value = route.matched[0].children;
 		OnHorMenuSelect(appSettings.value.currentSubSystem);
 	} else {
@@ -98,27 +81,4 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.header {
-	background-color: var(--qf-bg-match-color);
-	color: var(--qf-font-color-dark);
-	display: flex;
-	align-items: center;
-}
-.aside {
-	background-color: var(--qf-bg-brand-color);
-	transition: 0.5s;
-}
-.expand-collapse-btn {
-	cursor: pointer;
-	font-weight: 600;
-	transition: 0.5s;
-	user-select: none;
-	margin-right: 12px;
-}
-.expand-collapse-btn:hover {
-	color: var(--qf-bg-target-color);
-}
-.collapse-btn {
-	transform: rotateY(180deg);
-}
 </style>
