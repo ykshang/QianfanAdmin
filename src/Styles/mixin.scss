@@ -14,13 +14,39 @@
   }
 }
 
+/* 右外边距
+------------------------------- */
+@for $i from 1 through 1000 {
+  .m-r-#{$i} {
+    margin-right: #{$i}px !important;
+  }
+}
+
+/* 上外边距
+------------------------------- */
+@for $i from 1 through 1000 {
+  .m-t-#{$i} {
+    margin-top: #{$i}px !important;
+  }
+}
+
+/* 下外边距
+------------------------------- */
+@for $i from 1 through 1000 {
+  .m-b-#{$i} {
+    margin-bottom: #{$i}px !important;
+  }
+}
+
 /* 左右内边距
 ------------------------------- */
 @for $i from 1 through 100 {
   .p-#{$i} {
     padding: #{$i}px !important;
   }
-}/* 左右内边距
+}
+
+/* 左右内边距
 ------------------------------- */
 @for $i from 1 through 100 {
   .p-lr-#{$i} {

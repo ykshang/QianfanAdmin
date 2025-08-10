@@ -2,7 +2,7 @@
 	<el-dialog v-model="dialogVisible"
 						 v-if="dialogVisible"
 						 title="调色器"
-						 width="500"
+						 :width="500"
 						 :close-on-click-modal="false"
 						 align-center
 						 draggable>

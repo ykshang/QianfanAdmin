@@ -7,25 +7,25 @@
 }
 
 .flex-end-center {
-  display: flex;
+  display: flex !important;
   justify-content: flex-end;
   align-items: center;
 }
 
 .flex-between-center {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
 }
 
 .flex-around-center {
-  display: flex;
+  display: flex !important;
   justify-content: space-around;
   align-items: center;
 }
 
 .flex-center-center {
-  display: flex;
+  display: flex !important;
   justify-content: center;
   align-items: center;
 }

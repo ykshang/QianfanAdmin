@@ -35,6 +35,8 @@ const viteConfig = defineConfig((mode) => {
         resolvers: [ElementPlusResolver()],
       }),
       Components({
+        deep: true,
+        dirs: ['src/Components'],
         resolvers: [
           //特别注意importStyle不要搞错啦
           ElementPlusResolver({ importStyle: "sass" })

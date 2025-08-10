@@ -14,7 +14,7 @@ import * as ElementPlusIcons from '@element-plus/icons-vue'
 import pinia from '@/Stores/index'
 import App from '@/App.vue'
 import router from '@/Router'
-import globalComponent from '@/Components/index.js'
+// import globalComponent from '@/Components/index.js'
 
 
 const app = createApp(App)
@@ -24,5 +24,5 @@ for (const name in ElementPlusIcons) {
 }
 app.use(pinia)
 app.use(router)
-app.use(globalComponent)
+// app.use(globalComponent)
 app.mount('#app')

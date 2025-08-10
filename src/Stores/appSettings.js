@@ -19,8 +19,10 @@ export const useAppSettings = defineStore('appSettings', {
       menuIsExpand: true,
       /** 当 subSystem = true 时，系统当前所处的子系统 */
       currentSubSystem: '',
+      /** 当 layout = columns 时，分栏所处的菜单子项 */
+      currentColumnsSystem: '',
       /** 是否开启全屏 */
-      screenfull: false,
+      screenfull: false
     },
     systemTheme: {
       /** 是否显示页签 */
@@ -39,7 +41,7 @@ export const useAppSettings = defineStore('appSettings', {
       pageZoom: 1,
       /** 是否拆分子系统：这将自动匹配后台路由一级菜单为子系统 */
       subSystem: false,
-      /** 主题类型，light | dark */
+      /** 主题类型，light | dark | darkBlue */
       themeType: 'light',
       /** 顶部导航背景颜色 */
       topNavBGColor: '',
@@ -69,9 +71,15 @@ export const useAppSettings = defineStore('appSettings', {
       dangerColor: '#F56C6C',
       /** 信息的颜色 */
       infoColor: '#909399',
-    }
+    },
+    pageTabs: []
   }),
   actions: {
+    setPageTabs (data) {
+      this.pageTabs = data;
+      Local.remove('pageTabs');
+      Local.set('pageTabs', this.pageTabs);
+    },
     setAppSettings (data) {
       this.appSettings = data;
       Local.remove('appSettings');

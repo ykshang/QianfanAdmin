@@ -1,5 +1,7 @@
 <template>
-	<router-view />
+	<!-- <KeepAlive> -->
+		<router-view />
+	<!-- </KeepAlive> -->
 </template>
 <script setup name="App">
 import { onMounted, nextTick, inject, watch, onBeforeMount, ref } from 'vue';
@@ -46,6 +48,7 @@ onBeforeMount(() => {
 	// 获取缓存中的布局配置
 	const _appSettings = Local.get('appSettings');
 	const _systemTheme = Local.get('systemTheme');
+	const _pageTabs = Local.get('pageTabs');
 	if (_appSettings) {
 		_appSettings.screenfull = screenfull.isFullscreen;
 		storesUseAppSettings.setAppSettings(_appSettings);
@@ -58,6 +61,12 @@ onBeforeMount(() => {
 		el.classList.add("system-theme-" + _systemTheme.themeType);
 	} else {
 		const currentTheme = Themes[systemTheme.value.themeType];
+		const el = document.querySelector('html');
+		el.className = '';
+		el.classList.add("system-theme-" + systemTheme.value.themeType);
+		for (let index = 0; index < currentTheme.colorTypes.length; index++) {
+			systemTheme.value[currentTheme.colorTypes[index].key] = currentTheme.colorTypes[index].value;
+		}
 		for (let index = 0; index < currentTheme.functionColor.length; index++) {
 			systemTheme.value[currentTheme.functionColor[index].key] = currentTheme.functionColor[index].value;
 		}
@@ -115,6 +124,9 @@ onBeforeMount(() => {
 		document.documentElement.style.setProperty(`--qf-topnav-font-color`, systemTheme.value.topNavFontColor);
 	}
 	/** 初始化系统主题 End */
+	if (_pageTabs) {
+		storesUseAppSettings.setPageTabs(_pageTabs);
+	}
 	Resize();
 	Scoll();
 	window.addEventListener('resize', Resize);
