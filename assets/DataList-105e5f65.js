@@ -1,0 +1,1 @@
+import{_ as n}from"./PageContainer-fd3a42cb.js";import{_ as o,o as a,b as s,d as r,e as _}from"./index-339bdb83.js";const c={};function i(l,t){const e=n;return a(),s(e,null,{Default:r(()=>[...t[0]||(t[0]=[_("div",null,"数据列表页面",-1)])]),_:1})}const u=o(c,[["render",i]]);export{u as default};

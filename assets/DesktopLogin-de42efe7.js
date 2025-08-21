@@ -1,0 +1,1 @@
+import{_ as o,o as s,c as r,g as a,e as n,Q as l,F as c}from"./index-339bdb83.js";const d={};function f(t,e){return s(),r(c,null,[e[0]||(e[0]=a(" 桌面端 ",-1)),n("div",null,[l(t.$slots,"default")])],64)}const _=o(d,[["render",f]]);export{_ as default};
