@@ -1,0 +1,1 @@
+import{_ as n}from"./PageContainer-bc381ec1.js";import{_ as t,o as r,b as s,d as _,e as a}from"./index-fa49fc45.js";const c={};function l(f,e){const o=n;return r(),s(o,null,{Default:_(()=>[...e[0]||(e[0]=[a("div",null,"角色管理",-1)])]),_:1})}const u=t(c,[["render",l]]);export{u as default};

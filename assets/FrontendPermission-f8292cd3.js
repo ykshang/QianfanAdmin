@@ -1,0 +1,1 @@
+import{_ as o}from"./PageContainer-bc381ec1.js";import{_ as t,o as r,b as s,d as _,e as a}from"./index-fa49fc45.js";const c={};function i(l,n){const e=o;return r(),s(e,null,{Default:_(()=>[...n[0]||(n[0]=[a("div",null,"前端权限页面",-1)])]),_:1})}const p=t(c,[["render",i]]);export{p as default};
