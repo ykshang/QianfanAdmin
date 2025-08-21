@@ -1,14 +1,23 @@
-# QinfanAdmin
+# 黔帆Admin（QinfanAdmin）    
+
+## 项目介绍      
+&emsp;&emsp;QinfanAdmin 是一个基于 Vue3.0 + Vite + Pinia + Element Plus + JavaScript + Vue Router 等技术栈，实现了多主题、多布局、多页签、页面模板等功能，具备高度可定制化，可以快速构建企业级后台管理系统。       
+## 仓库地址      
+&emsp;&emsp;**Gitee：** [https://gitee.com/yangdawen/qianfan-admin](https://gitee.com/yangdawen/qianfan-admin)    
+&emsp;&emsp;**Github：** [https://github.com/yangdawen8088/QianfanAdmin](https://github.com/yangdawen8088/QianfanAdmin)
+
+> **提示：** 请以 gitee 中的版本为准。      
+## 作者自述     
 &emsp;&emsp;杨工是一个后端开发工程师，但是平时工作都是前后端一块儿做，这些年各类 JS 库皆有涉及，页面 UI 组件也大差不差，工作经验的积累，前端也略有成长，今而立之年，故总结一下经验与技术。      
-&emsp;&emsp;项目在 2025年8月下旬将提交一个精简版，供大家交流学习，还望各位指教，有兴趣的朋友可以帮忙贡献代码，感谢！          
+&emsp;&emsp;项目在 2025年8月下旬将提交一个精简版，供大家交流学习，还望各位指教，有兴趣的朋友可以帮忙贡献代码，作品不佳，还望海涵，谢谢！    
+&emsp;&emsp;**技术交流QQ群：** 488149286          
+&emsp;&emsp;**技术交流微信群：** 加下方微信邀请进群        
+&emsp;&emsp;**杨工微信：** QianfanSoft        
 
 > 
 > **注意：** 目前项目中的代码为最初创建项目之初的源码，不可运行，也并不是现在的效果，精简版将在2025年8月下旬提交，望期待与 Start 分享。       
 > 
 
-
-## 项目介绍      
-&emsp;&emsp;QinfanAdmin 是一个基于 Vue3.0 + Vite + Pinia + Element Plus + JavaScript + Vue Router 等技术栈，实现了多主题、多布局、多页签、页面模板等功能，具备高度可定制化，可以快速构建企业级后台管理系统。       
 
 ## 项目特点     
 ### 1、搭载常规的 5 种布局切换：     
@@ -63,3 +72,6 @@ npm run dev
 ```
 npm run build
 ```
+
+## 开源协议     
+&emsp;&emsp;本项目采用 MIT 开源协议。             
