@@ -48,6 +48,7 @@ const Scoll = () => {
   }
 };
 onBeforeMount(() => {
+
   // 获取缓存中的布局配置
   const _appSettings = Local.get("appSettings");
   const _systemTheme = Local.get("systemTheme");
@@ -219,14 +220,16 @@ const OnWindowDynamics = (type) => {
   }
 };
 // 监听路由的变化，设置网站标题
-watch(
-  () => route.path,
-  () => {
-    document.title = route.meta.title + "-" + __SYSTEM_NAME__;
-  }
-);
+// watch(
+//   () => route.path,
+//   () => {
+//     document.title = route.meta.title + "-" + __SYSTEM_NAME__;
+//   }
+// );
 // 页面加载时
-onMounted(() => {});
+onMounted(() => {
+  console.log(route);
+
+});
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
