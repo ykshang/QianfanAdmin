@@ -242,7 +242,8 @@ export const dynamicRoutes = [
       }]
     }
     ]
-  }, {
+  },
+  {
     path: '/Login',
     name: 'Login',
     component: () => import('@/Views/Login/index.vue'),

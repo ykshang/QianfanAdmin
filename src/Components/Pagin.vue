@@ -26,7 +26,7 @@
 const props = defineProps({
 	pagerCount: {
 		type: Number,
-		default: 10,
+		default: 5,
 	},
 	pageSizes: {
 		type: Array,

@@ -1,51 +1,55 @@
 <template>
-	<el-container class="h-100">
-		<el-scrollbar ref="scrollbarOneRef"
-									:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.style"
-									:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.max"
-									:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.wrap"
-									:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.view">
-			<QFLayoutHeader />
-			<PageTabs />
-			<el-scrollbar ref="scrollbarTwoRef"
-										:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.style"
-										:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.max"
-										:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.wrap"
-										:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.view">
-				<el-container :style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].middle">
-					<QFLayoutColumns />
-					<QFLayoutAside />
-					<el-scrollbar ref="scrollbarThreeRef"
-												:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.style"
-												:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.max"
-												:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.wrap"
-												:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.view">
-						<el-container :style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].lower">
-							<QFLayoutHeader :isTopNav="false" />
-							<PageTabs :isTopNav="false" />
-							<el-scrollbar ref="scrollbarFourRef"
-														:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.style"
-														:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.max"
-														:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.wrap"
-														:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.view">
-								<el-main>
-									<router-view v-slot="{ Component }">
-										<KeepAlive :include="_cachedViews">
-											<component :is="Component"
-																 :key="route.fullPath"
-																 class="w100" />
-										</KeepAlive>
-									</router-view>
-								</el-main>
-								<QFLayoutFooter />
-							</el-scrollbar>
-							<QFLayoutFooter :isMain="false" />
-						</el-container>
-					</el-scrollbar>
-				</el-container>
+	<el-watermark :content="systemTheme.showWatermark ? systemTheme.watermarkContent : ''" style="height: 100%;" :font="{color: systemTheme.watermarkTextColor}">
+		<el-container class="h-100">
+			<el-scrollbar ref="scrollbarOneRef"
+										:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.style"
+										:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.max"
+										:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.wrap"
+										:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].one.view">
+				<QFLayoutHeader />
+				<PageTabs />
+				<el-scrollbar ref="scrollbarTwoRef"
+											:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.style"
+											:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.max"
+											:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.wrap"
+											:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].two.view">
+					<el-container :style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].middle">
+						<QFLayoutColumns />
+						<QFLayoutAside />
+						<el-scrollbar ref="scrollbarThreeRef"
+													:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.style"
+													:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.max"
+													:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.wrap"
+													:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].three.view">
+							<el-container :style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].lower">
+								<QFLayoutHeader :isTopNav="false" />
+								<PageTabs :isTopNav="false" />
+								<el-scrollbar ref="scrollbarFourRef"
+															:style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.style"
+															:max-height="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.max"
+															:wrap-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.wrap"
+															:view-style="layoutStyle[systemTheme.layout][systemTheme.affixHeader?1:0].four.view">
+									<el-main style="overflow: hidden;">
+											<router-view v-slot="{ Component }">
+												<KeepAlive :include="_cachedViews">
+										<Transition enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutRight">
+														<component :is="Component"
+																	:key="route.fullPath"
+																	class="w100" />
+										</Transition>
+												</KeepAlive>
+											</router-view>
+									</el-main>
+									<QFLayoutFooter />
+								</el-scrollbar>
+								<QFLayoutFooter :isMain="false" />
+							</el-container>
+						</el-scrollbar>
+					</el-container>
+				</el-scrollbar>
 			</el-scrollbar>
-		</el-scrollbar>
-	</el-container>
+		</el-container>
+	</el-watermark>
 </template>
 <script setup name="FrontLayout">
 import { onMounted, ref, watch, defineAsyncComponent, nextTick, computed } from "vue";
@@ -160,21 +164,27 @@ const OnResetScrollbar = () => {
 		layoutStyle.value.classic["1"].two.style = `width:100%;height:calc(100% - ${systemTheme.value.headerHeight}px);`
 		layoutStyle.value.classic["0"].two.style = `width:100%;height:calc(100% - ${systemTheme.value.headerHeight}px);`
 		// layoutStyle.value.horizontal["1"].middle = `height: calc(100% + ${systemTheme.value.showPageTabs ? 30 : 0}px);`
-		setTimeout(() => {
+		let _js = 0;
+		const scrollbarInterval = setInterval(() => {
 			scrollbarOneRef.value?.update();
 			scrollbarTwoRef.value?.update();
 			scrollbarThreeRef.value?.update();
 			scrollbarFourRef.value?.update();
-		}, 500);
+			_js++;
+			if (_js > 20) {
+				window.clearInterval(scrollbarInterval);
+			}
+		}, 100);
 	});
 }
 watch(
-	() => [systemTheme.value.layout,
+	() => [systemTheme.value.layout,route.path,
 	systemTheme.value.showPageTabs,
 	systemTheme.value.affixHeader,
 	systemTheme.value.headerHeight,
 	systemTheme.value.showFooter],
 	() => {
+		console.info('滚动条更新')
 		OnResetScrollbar();
 	}
 );

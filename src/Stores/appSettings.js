@@ -25,6 +25,14 @@ export const useAppSettings = defineStore('appSettings', {
       screenfull: false
     },
     systemTheme: {
+      /** 开启水印 */
+      showWatermark: true,
+      /** 水印的颜色 */
+      watermarkTextColor: '',
+      /** 水印文本 */
+      watermarkContent: 'Qianfan Admin',
+      /** 组件大小 */
+      componentSize: 'default',
       /** 是否显示页签 */
       showPageTabs: true,
       /** 是否固定头部 */
@@ -75,37 +83,37 @@ export const useAppSettings = defineStore('appSettings', {
     pageTabs: []
   }),
   actions: {
-    setPageTabs (data) {
+    setPageTabs(data) {
       this.pageTabs = data;
       Local.remove('pageTabs');
       Local.set('pageTabs', this.pageTabs);
     },
-    setAppSettings (data) {
+    setAppSettings(data) {
       this.appSettings = data;
       Local.remove('appSettings');
       Local.set('appSettings', this.appSettings);
     },
-    setSystemTheme (data) {
+    setSystemTheme(data) {
       this.systemTheme = data;
       Local.remove('systemTheme');
       Local.set('systemTheme', this.systemTheme);
     },
-    changeDocumentTitle (value) {
+    changeDocumentTitle(value) {
       this.appSettings.documentTitle = value
       Local.remove('appSettings');
       Local.set('appSettings', this.appSettings);
     },
-    changeCurrentDevice (value) {
+    changeCurrentDevice(value) {
       this.appSettings.currentDevice = value
       Local.remove('appSettings');
       Local.set('appSettings', this.appSettings);
     },
-    changeViewSize (value) {
+    changeViewSize(value) {
       this.appSettings.viewHeight = value.height;
       this.appSettings.viewWidth = value.width;
       Local.set('appSettings', this.appSettings);
     },
-    changeScroll (value) {
+    changeScroll(value) {
       this.appSettings.scroll = value
       Local.remove('appSettings');
       Local.set('appSettings', this.appSettings);

@@ -67,8 +67,7 @@
 				<el-dropdown-menu>
 					<el-dropdown-item class="select-none">个人中心</el-dropdown-item>
 					<el-dropdown-item class="select-none">修改密码</el-dropdown-item>
-					<el-dropdown-item divided
-														class="select-none">退出登录</el-dropdown-item>
+					<el-dropdown-item divided class="select-none" @click="$router.push('/Login')">退出登录</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>

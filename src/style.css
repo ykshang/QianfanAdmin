@@ -13,6 +13,11 @@
   animation: none !important;
   mix-blend-mode: normal !important;
 }
+::selection{
+  background-color: var(--el-color-primary);
+  color: var(--el-text-color-primary);
+  font-weight: bold;
+}
 
 body {
   margin: 0px;

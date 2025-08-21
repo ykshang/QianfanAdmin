@@ -1,260 +1,280 @@
 <template>
-	<el-form ref="ruleFormRef"
+	<div>
+		<el-form ref="ruleFormRef"
 					 :model="ruleForm"
 					 label-width="auto">
-		<SctionTitle title="后台页面布局"
-								 icon="icon-bujushezhi" />
-		<el-form-item prop="layout"
-									label="页面布局：">
-			<el-radio-group v-model="ruleForm.layout"
-											@change="OnThemeChange('layout')">
-				<div class="common-layout">
-					<el-container class="layout-container">
-						<el-aside class="layout-aside"></el-aside>
-						<el-container>
+			<SctionTitle title="后台页面布局"
+									icon="icon-bujushezhi" />
+			<el-form-item prop="layout"
+										label="页面布局：">
+				<el-radio-group v-model="ruleForm.layout"
+												@change="OnThemeChange('layout')">
+					<div class="common-layout">
+						<el-container class="layout-container">
+							<el-aside class="layout-aside"></el-aside>
+							<el-container>
+								<el-header class="layout-header"></el-header>
+								<el-main class="layout-main"></el-main>
+								<el-footer v-if="systemTheme.showFooter"
+													class="layout-footer"></el-footer>
+							</el-container>
+						</el-container>
+						<el-radio value="default"
+											size="large">默认布局</el-radio>
+					</div>
+					<div class="common-layout">
+						<el-container class="layout-container">
 							<el-header class="layout-header"></el-header>
 							<el-main class="layout-main"></el-main>
 							<el-footer v-if="systemTheme.showFooter"
-												 class="layout-footer"></el-footer>
+												class="layout-footer"></el-footer>
 						</el-container>
-					</el-container>
-					<el-radio value="default"
-										size="large">默认布局</el-radio>
-				</div>
-				<div class="common-layout">
-					<el-container class="layout-container">
-						<el-header class="layout-header"></el-header>
-						<el-main class="layout-main"></el-main>
-						<el-footer v-if="systemTheme.showFooter"
-											 class="layout-footer"></el-footer>
-					</el-container>
-					<el-radio value="horizontal"
-										size="large">横向布局</el-radio>
-				</div>
-				<div class="common-layout">
-					<el-container class="layout-container">
-						<el-header class="layout-header"></el-header>
-						<el-container>
+						<el-radio value="horizontal"
+											size="large">横向布局</el-radio>
+					</div>
+					<div class="common-layout">
+						<el-container class="layout-container">
+							<el-header class="layout-header"></el-header>
+							<el-container>
+								<el-aside class="layout-aside"></el-aside>
+								<el-container>
+									<el-main class="layout-main"></el-main>
+									<el-footer v-if="systemTheme.showFooter"
+														class="layout-footer"></el-footer>
+								</el-container>
+							</el-container>
+						</el-container>
+						<el-radio value="classic"
+											size="large">经典布局</el-radio>
+					</div>
+					<div class="common-layout">
+						<el-container class="layout-container">
+							<el-aside class="layout-columns"></el-aside>
+							<el-aside class="layout-aside"></el-aside>
+							<el-container>
+								<el-header class="layout-header"></el-header>
+								<el-main class="layout-main"></el-main>
+								<el-footer v-if="systemTheme.showFooter"
+													class="layout-footer"></el-footer>
+							</el-container>
+						</el-container>
+						<el-radio value="columns"
+											size="large">分栏布局</el-radio>
+					</div>
+					<div class="common-layout">
+						<el-container class="layout-container">
 							<el-aside class="layout-aside"></el-aside>
 							<el-container>
 								<el-main class="layout-main"></el-main>
 								<el-footer v-if="systemTheme.showFooter"
-													 class="layout-footer"></el-footer>
+													class="layout-footer"></el-footer>
 							</el-container>
 						</el-container>
-					</el-container>
-					<el-radio value="classic"
-										size="large">经典布局</el-radio>
-				</div>
-				<div class="common-layout">
-					<el-container class="layout-container">
-						<el-aside class="layout-columns"></el-aside>
-						<el-aside class="layout-aside"></el-aside>
-						<el-container>
-							<el-header class="layout-header"></el-header>
-							<el-main class="layout-main"></el-main>
-							<el-footer v-if="systemTheme.showFooter"
-												 class="layout-footer"></el-footer>
-						</el-container>
-					</el-container>
-					<el-radio value="columns"
-										size="large">分栏布局</el-radio>
-				</div>
-				<div class="common-layout">
-					<el-container class="layout-container">
-						<el-aside class="layout-aside"></el-aside>
-						<el-container>
-							<el-main class="layout-main"></el-main>
-							<el-footer v-if="systemTheme.showFooter"
-												 class="layout-footer"></el-footer>
-						</el-container>
-					</el-container>
-					<el-radio value="chapter"
-										size="large">章节布局</el-radio>
-				</div>
-			</el-radio-group>
-		</el-form-item>
-		<el-form-item prop="subSystem">
-			<template #label>
-				<el-popover class="box-item"
-										width="300px"
-										content="仅默认布局、经典布局、分栏布局等才可以设置子系统，如果设置为 True 将自动匹配后台页面一级菜单为子系统，二级菜单为子系统下的菜单。">
-					<template #reference>
-						<i class="remind-icon iconfont icon-guanyu" />
-					</template>
-				</el-popover>
-				<span>子系统：</span>
-			</template>
-			<el-switch v-model="ruleForm.subSystem"
-								 @change="OnThemeChange('subSystem')"
-								 :disabled="ruleForm.layout !== 'default' && ruleForm.layout !== 'classic' && ruleForm.layout !== 'columns'" />
-		</el-form-item>
-		<el-form-item prop="pageZoom"
-									label="页面缩放：">
-			<el-slider v-model="ruleForm.pageZoom"
-								 :min="0.0"
-								 :max="2.0"
-								 :step="0.1"
-								 show-input
-								 @change="OnThemeChange('pageZoom')" />
-		</el-form-item>
-		<el-form-item prop="showFooter"
-									label="显示页脚：">
-			<el-switch v-model="ruleForm.showFooter"
-								 @change="OnThemeChange('showFooter')" />
-		</el-form-item>
-		<el-form-item prop="affixHeader">
-			<template #label>
-				<el-popover class="box-item"
-										width="300px"
-										content="仅默认布局、横向布局、分栏布局等才可以设置固定头部，如果设置为 True 将固定布局头部。">
-					<template #reference>
-						<i class="remind-icon iconfont icon-guanyu" />
-					</template>
-				</el-popover>
-				<span>固定头部：</span>
-			</template>
-			<el-switch v-model="ruleForm.affixHeader"
-								 @change="OnThemeChange('affixHeader')"
-								 :disabled="ruleForm.layout === 'classic' || ruleForm.layout === 'chapter'" />
-		</el-form-item>
-		<el-form-item prop="headerHeight">
-			<template #label>
-				<el-popover class="box-item"
-										width="300px"
-										content="章节布局不可以设置页头高度。">
-					<template #reference>
-						<i class="remind-icon iconfont icon-guanyu" />
-					</template>
-				</el-popover>
-				<span>页头高度：</span>
-			</template>
-			<el-input-number v-model="ruleForm.headerHeight"
-											 :min="60"
-											 :max="200"
-											 @change="OnThemeChange('headerHeight')"
-											 :disabled="ruleForm.layout === 'chapter'" />
-		</el-form-item>
-		<el-form-item prop="menuWidth">
-			<template #label>
-				<el-popover class="box-item"
-										width="300px"
-										content="横向布局不可以设置页头高度。">
-					<template #reference>
-						<i class="remind-icon iconfont icon-guanyu" />
-					</template>
-				</el-popover>
-				<span>菜单宽度：</span>
-			</template>
-			<el-input-number v-model="ruleForm.menuWidth"
-											 :min="200"
-											 :max="800"
-											 @change="OnThemeChange('menuWidth')"
-											 :disabled="ruleForm.layout === 'horizontal'" />
-		</el-form-item>
-		<el-form-item prop="showPageTabs"
-									label="显示页签：">
-			<template #label>
-				<el-popover class="box-item"
-										width="300px"
-										content="章节布局不支持设置页签，如果设置为 True 将显示页签。">
-					<template #reference>
-						<i class="remind-icon iconfont icon-guanyu" />
-					</template>
-				</el-popover>
-				<span>显示页签：</span>
-			</template>
-			<el-switch v-model="ruleForm.showPageTabs"
-								 @change="OnThemeChange('showPageTabs')"
-								 :disabled="ruleForm.layout === 'chapter'" />
-		</el-form-item>
-		<el-form-item prop="themeType"
-									label="系统主题：">
-			<el-radio-group v-model="ruleForm.themeType"
-											@change="OnThemeChange('themeType')">
-				<div class="theme-item"
-						 v-for="(value, key) in Themes"
-						 :key="key"
-						 :id="`theme-radio-${key}`">
-					<div class="theme-item-container">
-						<div v-for="color in value.colorSummary"
-								 :key="color"
-								 :style="{'background-color': color}"></div>
+						<el-radio value="chapter"
+											size="large">章节布局</el-radio>
 					</div>
-					<el-radio :value="key"
-										size="large">{{value.name}}</el-radio>
+				</el-radio-group>
+			</el-form-item>
+			<el-form-item prop="subSystem">
+				<template #label>
+					<el-popover class="box-item"
+											width="300px"
+											content="仅默认布局、经典布局、分栏布局等才可以设置子系统，如果设置为 True 将自动匹配后台页面一级菜单为子系统，二级菜单为子系统下的菜单。">
+						<template #reference>
+							<i class="remind-icon iconfont icon-guanyu" />
+						</template>
+					</el-popover>
+					<span>子系统：</span>
+				</template>
+				<el-switch v-model="ruleForm.subSystem"
+									@change="OnThemeChange('subSystem')"
+									:disabled="ruleForm.layout !== 'default' && ruleForm.layout !== 'classic' && ruleForm.layout !== 'columns'" />
+			</el-form-item>
+			<el-form-item prop="pageZoom"
+										label="页面缩放：">
+				<el-slider v-model="ruleForm.pageZoom"
+									:min="0.0"
+									:max="2.0"
+									:step="0.1"
+									show-input
+									@change="OnThemeChange('pageZoom')" />
+			</el-form-item>
+			<el-form-item prop="showFooter"
+										label="显示页脚：">
+				<el-switch v-model="ruleForm.showFooter"
+									@change="OnThemeChange('showFooter')" />
+			</el-form-item>
+			<el-form-item prop="affixHeader">
+				<template #label>
+					<el-popover class="box-item"
+											width="300px"
+											content="仅默认布局、横向布局、分栏布局等才可以设置固定头部，如果设置为 True 将固定布局头部。">
+						<template #reference>
+							<i class="remind-icon iconfont icon-guanyu" />
+						</template>
+					</el-popover>
+					<span>固定头部：</span>
+				</template>
+				<el-switch v-model="ruleForm.affixHeader"
+									@change="OnThemeChange('affixHeader')"
+									:disabled="ruleForm.layout === 'classic' || ruleForm.layout === 'chapter'" />
+			</el-form-item>
+			<el-form-item prop="headerHeight">
+				<template #label>
+					<el-popover class="box-item"
+											width="300px"
+											content="章节布局不可以设置页头高度。">
+						<template #reference>
+							<i class="remind-icon iconfont icon-guanyu" />
+						</template>
+					</el-popover>
+					<span>页头高度：</span>
+				</template>
+				<el-input-number v-model="ruleForm.headerHeight"
+												:min="60"
+												:max="200"
+												@change="OnThemeChange('headerHeight')"
+												:disabled="ruleForm.layout === 'chapter'" />
+			</el-form-item>
+			<el-form-item prop="menuWidth">
+				<template #label>
+					<el-popover class="box-item"
+											width="300px"
+											content="横向布局不可以设置页头高度。">
+						<template #reference>
+							<i class="remind-icon iconfont icon-guanyu" />
+						</template>
+					</el-popover>
+					<span>菜单宽度：</span>
+				</template>
+				<el-input-number v-model="ruleForm.menuWidth"
+												:min="200"
+												:max="800"
+												@change="OnThemeChange('menuWidth')"
+												:disabled="ruleForm.layout === 'horizontal'" />
+			</el-form-item>
+			<el-form-item prop="showPageTabs"
+										label="显示页签：">
+				<template #label>
+					<el-popover class="box-item"
+											width="300px"
+											content="章节布局不支持设置页签，如果设置为 True 将显示页签。">
+						<template #reference>
+							<i class="remind-icon iconfont icon-guanyu" />
+						</template>
+					</el-popover>
+					<span>显示页签：</span>
+				</template>
+				<el-switch v-model="ruleForm.showPageTabs"
+									@change="OnThemeChange('showPageTabs')"
+									:disabled="ruleForm.layout === 'chapter'" />
+			</el-form-item>
+			<el-form-item prop="themeType"
+										label="系统主题：">
+				<el-radio-group v-model="ruleForm.themeType"
+												@change="OnThemeChange('themeType')">
+					<div class="theme-item"
+							v-for="(value, key) in Themes"
+							:key="key"
+							:id="`theme-radio-${key}`">
+						<div class="theme-item-container">
+							<div v-for="color in value.colorSummary"
+									:key="color"
+									:style="{'background-color': color}"></div>
+						</div>
+						<el-radio :value="key"
+											size="large">{{value.name}}</el-radio>
+					</div>
+				</el-radio-group>
+			</el-form-item>
+			<el-form-item label="配色方案：">
+				<div class="color-scheme">
+					<div class="color-scheme-view scheme-view-topnavcolor flex-center-center">头部顶栏</div>
+					<div class="color-scheme-option flex-around-center p-5">
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('topNavBGColor', ruleForm.topNavBGColor, true)">背景颜色</el-button>
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('topNavFontColor', ruleForm.topNavFontColor, false)">文字颜色</el-button>
+					</div>
 				</div>
-			</el-radio-group>
-		</el-form-item>
-		<el-form-item label="配色方案：">
-			<div class="color-scheme">
-				<div class="color-scheme-view scheme-view-topnavcolor flex-center-center">头部顶栏</div>
-				<div class="color-scheme-option flex-around-center p-5">
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('topNavBGColor', ruleForm.topNavBGColor, true)">背景颜色</el-button>
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('topNavFontColor', ruleForm.topNavFontColor, false)">文字颜色</el-button>
+				<div class="color-scheme">
+					<div class="color-scheme-view scheme-view-sidebarColor flex-center-center">左侧分栏</div>
+					<div class="color-scheme-option flex-around-center p-5">
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('sidebarBGColor', ruleForm.sidebarBGColor, true)">背景颜色</el-button>
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('sidebarFontColor', ruleForm.sidebarFontColor, false)">文字颜色</el-button>
+					</div>
 				</div>
-			</div>
-			<div class="color-scheme">
-				<div class="color-scheme-view scheme-view-sidebarColor flex-center-center">左侧分栏</div>
-				<div class="color-scheme-option flex-around-center p-5">
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('sidebarBGColor', ruleForm.sidebarBGColor, true)">背景颜色</el-button>
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('sidebarFontColor', ruleForm.sidebarFontColor, false)">文字颜色</el-button>
+				<div class="color-scheme">
+					<div class="color-scheme-view scheme-view-menuBarColor flex-center-center">左侧菜单</div>
+					<div class="color-scheme-option flex-around-center p-5">
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('menuBarBGColor', ruleForm.menuBarBGColor, true)">背景颜色</el-button>
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('menuBarFontColor', ruleForm.menuBarFontColor, false)">文字颜色</el-button>
+					</div>
 				</div>
-			</div>
-			<div class="color-scheme">
-				<div class="color-scheme-view scheme-view-menuBarColor flex-center-center">左侧菜单</div>
-				<div class="color-scheme-option flex-around-center p-5">
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('menuBarBGColor', ruleForm.menuBarBGColor, true)">背景颜色</el-button>
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('menuBarFontColor', ruleForm.menuBarFontColor, false)">文字颜色</el-button>
+				<div class="color-scheme">
+					<div class="color-scheme-view scheme-view-pageFooterColor flex-center-center">网站页脚</div>
+					<div class="color-scheme-option flex-around-center p-5">
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('pageFooterBGColor', ruleForm.pageFooterBGColor, true)">背景颜色</el-button>
+						<el-button type="primary"
+											link
+											@click="OnSelectColor('pageFooterFontColor', ruleForm.pageFooterFontColor, false)">文字颜色</el-button>
+					</div>
 				</div>
-			</div>
-			<div class="color-scheme">
-				<div class="color-scheme-view scheme-view-pageFooterColor flex-center-center">网站页脚</div>
-				<div class="color-scheme-option flex-around-center p-5">
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('pageFooterBGColor', ruleForm.pageFooterBGColor, true)">背景颜色</el-button>
-					<el-button type="primary"
-										 link
-										 @click="OnSelectColor('pageFooterFontColor', ruleForm.pageFooterFontColor, false)">文字颜色</el-button>
+				<div class="color-scheme">
+					<div class="color-item"
+							:style="{'background-color': ruleForm.primaryColor}"
+							@click="OnSelectColor('primaryColor', ruleForm.primaryColor, false)">主题</div>
+					<div class="color-item"
+							:style="{'background-color': ruleForm.successColor}"
+							@click="OnSelectColor('successColor', ruleForm.successColor, false)">成功</div>
+					<div class="color-item"
+							:style="{'background-color': ruleForm.warningColor}"
+							@click="OnSelectColor('warningColor', ruleForm.warningColor, false)">警告</div>
+					<div class="color-item"
+							:style="{'background-color': ruleForm.dangerColor}"
+							@click="OnSelectColor('dangerColor', ruleForm.dangerColor, false)">危险</div>
+					<div class="color-item"
+							:style="{'background-color': ruleForm.infoColor}"
+							@click="OnSelectColor('infoColor', ruleForm.infoColor, false)">信息</div>
 				</div>
-			</div>
-			<div class="color-scheme">
-				<div class="color-item"
-						 :style="{'background-color': ruleForm.primaryColor}"
-						 @click="OnSelectColor('primaryColor', ruleForm.primaryColor, false)">主题</div>
-				<div class="color-item"
-						 :style="{'background-color': ruleForm.successColor}"
-						 @click="OnSelectColor('successColor', ruleForm.successColor, false)">成功</div>
-				<div class="color-item"
-						 :style="{'background-color': ruleForm.warningColor}"
-						 @click="OnSelectColor('warningColor', ruleForm.warningColor, false)">警告</div>
-				<div class="color-item"
-						 :style="{'background-color': ruleForm.dangerColor}"
-						 @click="OnSelectColor('dangerColor', ruleForm.dangerColor, false)">危险</div>
-				<div class="color-item"
-						 :style="{'background-color': ruleForm.infoColor}"
-						 @click="OnSelectColor('infoColor', ruleForm.infoColor, false)">信息</div>
-			</div>
-		</el-form-item>
-		<el-form-item>
-			<el-button @click="OnResetForm(ruleFormRef)">撤 销</el-button>
-		</el-form-item>
-	</el-form>
-	<SelectColorDialog ref="SelectColorDialogRef"
-										 @commitColor="OnCommitColor" />
+			</el-form-item>
+			<el-form-item label="组件大小"
+										prop="componentSize">
+				<el-radio-group v-model="ruleForm.componentSize"
+												@change="OnThemeChange('componentSize')">
+					<el-radio value="large">大型</el-radio>
+					<el-radio value="default">默认</el-radio>
+					<el-radio value="small">小型</el-radio>
+				</el-radio-group>
+			</el-form-item>
+			<el-form-item prop="showWatermark"
+										label="显示水印：">
+				<el-switch v-model="ruleForm.showWatermark"
+									@change="OnThemeChange('showWatermark')" />
+			</el-form-item>
+			<el-form-item prop="watermarkContent"
+										label="水印文字：">
+				<el-input v-model="ruleForm.watermarkContent" style="width: 240px" :placeholder="ruleForm.watermarkContent" @change="OnThemeChange('watermarkContent')" />
+			</el-form-item>
+			<el-form-item>
+				<el-button @click="OnResetForm(ruleFormRef)">撤 销</el-button>
+			</el-form-item>
+		</el-form>
+		<SelectColorDialog ref="SelectColorDialogRef"
+											@commitColor="OnCommitColor" />
+	</div>
 </template>
 <script setup name="ThemeSettings">
 import { ref, nextTick, onMounted, watch } from 'vue';
@@ -287,29 +307,10 @@ const ruleForm = ref({
 	successColor: systemTheme.value.successColor,
 	warningColor: systemTheme.value.warningColor,
 	dangerColor: systemTheme.value.dangerColor,
-	infoColor: systemTheme.value.infoColor
-	// layout: '',
-	// subSystem: '',
-	// pageZoom: '',
-	// showFooter: '',
-	// affixHeader: '',
-	// headerHeight: '',
-	// menuWidth: '',
-	// showPageTabs: '',
-	// themeType: '',
-	// topNavBGColor: '',
-	// topNavFontColor: '',
-	// sidebarBGColor: '',
-	// sidebarFontColor: '',
-	// menuBarBGColor: '',
-	// menuBarFontColor: '',
-	// pageFooterBGColor: '',
-	// pageFooterFontColor: '',
-	// primaryColor: '',
-	// successColor: '',
-	// warningColor: '',
-	// dangerColor: '',
-	// infoColor: ''
+	infoColor: systemTheme.value.infoColor,
+	componentSize: systemTheme.value.componentSize,
+	showWatermark: systemTheme.value.showWatermark,
+	watermarkContent: systemTheme.value.watermarkContent
 });
 const OnLayoutChange = () => {
 	nextTick(() => {
@@ -388,6 +389,18 @@ const OnThemeTypeChange = () => {
 			document.documentElement.style.setProperty(`--el-color-${currentTheme.functionColor[index].key.replace('Color', '')}-light-${i}`, `${ChangeColor.getLightColor(currentTheme.functionColor[index].value, i / 10)}`);
 		}
 	}
+	// 设置水印颜色 Start
+	let textColor = getComputedStyle(document.documentElement).getPropertyValue('--el-text-color-regular').trim();
+	console.info('获取水印颜色', textColor);
+	if (textColor.startsWith('#')) {
+		textColor= `${textColor}15`
+	} else {
+		textColor = textColor.replace('rgb(', '').replace(')', '');
+		textColor = textColor.split(',');
+		textColor = `rgba(${textColor[0]},${textColor[1]},${textColor[2]},0.15)`;
+	}
+	systemTheme.value.watermarkTextColor = textColor;
+	// 设置水印颜色 End
 	storesUseAppSettings.setSystemTheme(systemTheme.value);
 }
 const ruleFormRef = ref();

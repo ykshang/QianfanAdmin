@@ -24,7 +24,7 @@ watch(systemTheme.value.affixHeader, () => {
 </script>
 <style lang="scss" scoped>
 .page-container-0 {
-	padding: 18px;
+	padding: 10px;
 	position: absolute;
 	top: 0;
 	left: 0;

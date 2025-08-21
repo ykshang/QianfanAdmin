@@ -71,6 +71,7 @@ html.system-theme-darkBlue {
   --el-mask-color: rgba(0, 0, 0, 0.8);
   --el-mask-color-extra-light: rgba(0, 0, 0, 0.3);
   --el-menu-bg-color: var(--qf-topnav-bg-color);
+  --el-border-radius-base: 2px !important;
 }
 
 html.system-theme-dark .el-button {

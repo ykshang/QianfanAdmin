@@ -3,8 +3,9 @@
 						:class="{'columns-hide':systemTheme.layout !== 'columns'}"
 						:width="`64px`"
 						style="background-color: var(--qf-sidebar-bg-color);">
-		<SystemTitle :isShowText="false"
-								 v-if="!appSettings.menuIsExpand" />
+		<Transition enter-active-class="animate__animated animate__bounceIn" leave-active-class="animate__animated animate__bounceOut">
+			<SystemTitle :isShowText="false" v-if="!appSettings.menuIsExpand" />
+		</Transition>
 		<el-scrollbar>
 			<div class="columns-menu"
 					 v-for="item in systemMenus"

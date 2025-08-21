@@ -31,7 +31,7 @@
 								 @click="$router.push('/Backend/SystemManagement/ThemeSettings')">主题设置</el-button>
 			<el-button style="margin-left: 0px"
 								 type="primary"
-								 plain>退 出</el-button>
+								 plain @click="$router.push('/Login')">退出登录</el-button>
 		</div>
 	</el-aside>
 </template>
@@ -100,8 +100,6 @@ const InitMenuWidth = () => {
 	}
 }
 const OnMenuExpandOrCollapse = () => {
-  console.info(appSettings.value.menuIsExpand)
-  console.info(systemMenus.value)
 	if (systemMenus.value.length === 0 && appSettings.value.menuIsExpand) {
 		appSettings.value.menuIsExpand = false;
 		storesUseAppSettings.setAppSettings(appSettings.value);
